@@ -1,0 +1,33 @@
+﻿1.create database ongeza_test with the tables below:
+table name=customer
+id int primary key auto_increment
+first_name varchar 25
+last_name varchar 25
+town_name varchar 25
+gender_id int
+is_deleted int not null default 0
+table= gender
+id int primary key auto_increment
+gender_name varchar 25
+
+2. Implement CRUD (create,read,update,delete) on table customer
+For the read view,the columns to display are customer.id,customer.first_name,customer.last_name,customer.town_name,
+Gender.gender_name
+
+3.add data in gender table and have data from gender table as dropdown data for field gender in customer registration form
+
+4.implement  form validation in the create process using javascript & html
+such that
+-the first name must be at least 3 characters - use javascript
+-all fields must filled - you can use html or javascript
+
+
+5.You are strictly required to use core php for the server side work
+
+
+6.implementation of  object oriented programming will be a plus (classes,functions etc..)
+
+
+7.upload your code,database dump file,readme file (explaining how to test it ) on your github profile
+
+8.send the link to the repository on github to james.simiyu@ongeza.com by Monday 2020-03-23 23:59
