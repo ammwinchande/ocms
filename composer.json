@@ -1,0 +1,12 @@
+{
+    "name": "ammwinchande/ocms",
+    "description": "Ongeza Customer Management System",
+    "autoload": {
+        "classmap": [
+            "./"
+        ]
+    },
+    "require": {
+        "nesbot/carbon": "^2.31"
+    }
+}
