@@ -12,8 +12,8 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item"><a href="/gender">Genders</a></li>
 						<li class="breadcrumb-item"><a href="/customer">Customers</a></li>
-						<li class="breadcrumb-item"><a href="/gender">Gender</a></li>
 						<li class="breadcrumb-item"><a href="/guide">System Guide</a></li>
 					</ol>
 				</nav>
