@@ -1,4 +1,8 @@
-<?php require './app/views/partials/header.php'; ?>
+<?php
+
+use App\Core\App;
+
+require './app/views/partials/header.php'; ?>
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-12 col-12">
 			<h2><i class="fa fa-users"></i> | Manage Customers</h2>
@@ -30,15 +34,17 @@
 					<?php else: ?>
 						<?php foreach ($customers as $customer): ?>
 							<tr>
-								<th scope="row">$customer->id</th>
-								<td><?= $customer->last_name; ?></td>
-								<td><?= $customer->last_name; ?></td>
-								<td><?= $customer->town_name; ?></td>
-								<td><?= $customer->gender_id; ?></td>
+								<th scope="row"><?= $customer->id; ?></th>
+								<td class="text-capitalize"><?= $customer->first_name; ?></td>
+								<td class="text-capitalize"><?= $customer->last_name; ?></td>
+								<td class="text-capitalize"><?= $customer->town_name; ?></td>
+								<td class="text-capitalize">
+									<?= App::get('database')->selectOne('gender', $customer->gender_id)[0]->gender_name; ?>
+								</td>
 								<td class="text-center">
-									<a href="/customer/show"><i class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
-									<a href="/customer/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
-									<span><i class="fa fa-trash-o"></i></span> &nbsp;
+									<a href="/customer/show/?id=<?= $customer->id; ?>"><i class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
+									<a href="/customer/edit/?id=<?= $customer->id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
+									<a href="/customer/delete/?id=<?= $customer->id; ?>"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i></a> &nbsp;
 								</td>
 							</tr>
 						<?php endforeach ?>
@@ -47,3 +53,5 @@
 			</table>
 		</div>
 	</div>
+
+<?php require './app/views/partials/footer.php';

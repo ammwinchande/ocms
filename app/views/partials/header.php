@@ -17,6 +17,12 @@
 
 	<!-- theme CSS -->
 	<link rel="stylesheet" href="/public/css/style.css">
+
+	<style>
+    .help-block.error {
+		margin-bottom: 5px;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">

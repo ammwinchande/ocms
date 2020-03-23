@@ -27,12 +27,12 @@
 					<?php else: ?>
 						<?php foreach ($genders as $gender): ?>
 							<tr>
-								<th scope="row">$gender->id</th>
-								<td><?= $gender->gender_name; ?></td>
+								<th scope="row"><?= $gender->id; ?></th>
+								<td class="text-uppercase"><?= $gender->gender_name; ?></td>
 								<td class="text-center">
-									<a href="/customer/show"><i class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
-									<a href="/customer/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
-									<span><i class="fa fa-trash-o"></i></span> &nbsp;
+									<a href="/gender/show?id=<?= $gender->id; ?>"><i class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
+									<a href="/gender/edit?id=<?= $gender->id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
+									<a href="/gender/delete?id=<?= $gender->id; ?>" id="remove-item"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i></a> &nbsp;
 								</td>
 							</tr>
 						<?php endforeach ?>
@@ -41,3 +41,5 @@
 			</table>
 		</div>
 	</div>
+
+<?php require './app/views/partials/footer.php';

@@ -10,5 +10,6 @@
 		<!-- scripts goes here -->
 		<script src="/public/js/jquery.min.js"></script>
 		<script src="/public/js/bootstrap.min.js"></script>
+		<script src="/public/js/script.js" defer></script>
 	</body>
 </html>
