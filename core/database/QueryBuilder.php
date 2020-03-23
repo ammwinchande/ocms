@@ -12,8 +12,14 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
-    public function selectAll($table)
+    public function selectAll($table, $has_is_deleted_at)
     {
+        if ($has_is_deleted_at) {
+            $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE is_deleted <> 1");
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_CLASS);
+        }
         $statement = $this->pdo->prepare("SELECT * FROM {$table}");
         $statement->execute();
 
@@ -25,7 +31,7 @@ class QueryBuilder
         $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE id = {$id}");
         $statement->execute();
 
-        return $statement->fetch(PDO::FETCH_CLASS);
+        return $statement->fetchAll(PDO::FETCH_CLASS);
     }
 
     public function createCustomer($table, $first_name, $last_name, $town_name, $gender_id)
@@ -48,13 +54,16 @@ class QueryBuilder
     {
         $statement = $this->pdo->prepare("
             UPDATE {$table} SET first_name=:first_name, last_name=:last_name, town_name=:town_name,
-            gender_id=:gender_id WHERE id=:id
-		");
+            gender_id=:gender_id, updated_at=:updated_at WHERE id=:id
+        ");
+
+        $now = new DateTime('now');
 
         $statement->bindParam(':first_name', $first_name);
         $statement->bindParam(':last_name', $last_name);
         $statement->bindParam(':town_name', $town_name);
         $statement->bindParam(':gender_id', $gender_id);
+        $statement->bindParam(':updated_at', $now->format('Y-m-d H:i:s'));
         $statement->bindParam(':id', $id);
 
         $statement->execute();
@@ -88,10 +97,12 @@ class QueryBuilder
     public function updateGender($table, $id, $gender_name)
     {
         $statement = $this->pdo->prepare("
-			UPDATE {$table} SET gender_name=:gender_name WHERE id=:id
-		");
+			UPDATE {$table} SET gender_name=:gender_name, updated_at=:updated_at WHERE id=:id
+        ");
 
+        $now = new DateTime('now');
         $statement->bindParam(':gender_name', $gender_name);
+        $statement->bindParam(':updated_at', $now->format('Y-m-d H:i:s'));
         $statement->bindParam(':id', $id);
 
         $statement->execute();
@@ -100,20 +111,27 @@ class QueryBuilder
 
     public function deleteGender($table, $id)
     {
-        $this->setDeletedAt($table, $id);
-        $statement = $this->pdo->prepare("DELETE FROM {$table} WHERE id = {$id}");
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_CLASS);
+        try {
+            $statement = $this->pdo->prepare("DELETE FROM {$table} WHERE id = {$id}");
+            $statement->execute();
+            return true;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
+    /**
+     * Do a soft delete
+     */
     public function setDeletedAt($table, $id)
     {
         $statement = $this->pdo->prepare("
 			UPDATE {$table} SET deleted_at=:deleted_at WHERE id=:id
-		");
+        ");
 
-        $statement->bindParam(':deleted_at', new DateTime('now'));
+        $now = new DateTime('now');
+
+        $statement->bindParam(':deleted_at', $now->format('Y-m-d H:i:s'));
         $statement->bindParam(':id', $id);
 
         $statement->execute();
@@ -121,14 +139,21 @@ class QueryBuilder
 
     public function setIsDeleted($table, $id)
     {
-        $statement = $this->pdo->prepare("
-			UPDATE {$table} SET is_deleted=:is_deleted WHERE id=:id
-		");
+        try {
+            $statement = $this->pdo->prepare("
+                UPDATE {$table} SET is_deleted=:is_deleted, deleted_at=:deleted_at WHERE id=:id
+            ");
 
-        $statement->bindParam(':is_deleted', 1);
-        $statement->bindParam(':id', $id);
+            $now = new DateTime('now');
+            $statement->bindParam(':is_deleted', 1);
+            $statement->bindParam(':deleted_at', $now->format('Y-m-d H:i:s'));
+            $statement->bindParam(':id', $id);
 
-        $statement->execute();
+            dd($statement->execute());
+            return true;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     public function insert($table, $parameters)
