@@ -13,7 +13,8 @@ class GendersController
      */
     public function index()
     {
-        $genders = App::get('database')->selectAll('gender');
+        $genders = App::get('database')->selectAll('gender', false);
+
         return view('gender/index', compact('genders'));
     }
 
@@ -24,7 +25,7 @@ class GendersController
      */
     public function create()
     {
-        //
+        return view('gender/create');
     }
 
     /**
@@ -32,9 +33,23 @@ class GendersController
      *
      * @return Http $response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        if (!empty($_POST)) {
+            $gender_name = sanitize($_POST['gender_name']);
+
+            $insert_gender = App::get('database')->createGender(
+                'gender',
+                strtolower($gender_name),
+            );
+
+            if ($insert_gender) {
+                return redirect('/gender');
+            }	// return redirect('success');
+            else {
+                return view('failed');
+            }
+        }
     }
 
     /**
@@ -44,7 +59,14 @@ class GendersController
      */
     public function show()
     {
-        //
+        $id = sanitize(
+            $_GET['id']
+        );
+        $gender = App::get('database')->selectOne('gender', $id);
+        if (empty($gender)) {
+            return redirect('not-found');
+        }
+        return view('gender/show', ['gender' => $gender[0]]);
     }
 
     /**
@@ -53,9 +75,16 @@ class GendersController
      * @param  int  $id
      * @return view
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $id = sanitize(
+            $_GET['id']
+        );
+        $gender = App::get('database')->selectOne('gender', $id);
+        if (empty($gender)) {
+            return redirect('not-found');
+        }
+        return view('gender/edit', ['gender' => $gender[0]]);
     }
 
     /**
@@ -63,9 +92,26 @@ class GendersController
      *
      * @return Http $response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        //
+        // dd($_POST['gender_name']);
+        if (!empty($_POST)) {
+            $gender_name = sanitize($_POST['gender_name']);
+            $id = sanitize($_POST['id']);
+
+            $update_gender = App::get('database')->updateGender(
+                'gender',
+                $id,
+                strtolower($gender_name),
+            );
+
+            if ($update_gender) {
+                return redirect('/show/?id=' . $id);
+            }	// return redirect('success');
+            else {
+                return redirect('not-found');
+            }
+        }
     }
 
     /**
@@ -73,8 +119,15 @@ class GendersController
      *
      * @return Http $response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $id = sanitize(
+            $_GET['id']
+        );
+
+        if (App::get('database')->deleteGender('gender', $id)) {
+            return redirect('/gender');
+        }
+        return redirect('not-found');
     }
 }
