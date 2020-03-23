@@ -23,4 +23,14 @@ class PagesController
     {
         return view('guide');
     }
+
+    /**
+     * Display a not found resource
+     *
+     * @return view
+     */
+    public function notFound()
+    {
+        return view('404');
+    }
 }
