@@ -16,7 +16,7 @@ function view($name, $data = [])
 
 function redirect($uri_path)
 {
-    header("Location: /{$uri_path}");
+    header("Location: {$uri_path}");
 }
 
 function dd($dumped_val)
@@ -25,3 +25,8 @@ function dd($dumped_val)
     die(var_dump($dumped_val));
     echo '</pre>';
 }	// dump and die
+
+function sanitize($input)
+{
+    return htmlspecialchars($input);
+}
