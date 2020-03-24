@@ -20,10 +20,10 @@
 						<th scope="row">Gender Name</th>
 						<td class="text-capitalize"><?= $gender->gender_name; ?></td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th scope="row">Created At</th>
 						<td class="text-capitalize"><?= $gender->created_at; ?></td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>

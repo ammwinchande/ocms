@@ -1,4 +1,6 @@
-<?php require './app/views/partials/header.php'; ?>
+<?php
+
+require './app/views/partials/header.php'; ?>
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-12 col-12">
 			<h2><i class="fa fa-user-plus"></i> | Update Customer</h2>
@@ -48,4 +50,4 @@
 		</div>
 	</div>
 
-<?php require './app/views/partials/footer-with-validation.php';
+<?php require './app/views/partials/footer.php';

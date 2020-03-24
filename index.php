@@ -4,9 +4,9 @@ use App\Core\Request;
 
 /* use App\Core\ {Router, Request}*/
 
-require 'vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
-require 'core/bootstrap.php';
+require __DIR__.'/core/bootstrap.php';
 
 Router::load('app/routes.php')
     ->direct(Request::uri(), Request::method());

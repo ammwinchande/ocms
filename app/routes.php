@@ -1,7 +1,7 @@
 
 <?php
 
-$router->get('', 'PagesController@index');
+$router->get('/', 'PagesController@index');
 $router->get('guide', 'PagesController@guide');
 $router->get('not-found', 'PagesController@notFound');
 
