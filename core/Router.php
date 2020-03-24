@@ -37,6 +37,9 @@ class Router
     /* processes the post requests */
     public function direct($uri, $request_type)
     {
+        if ($uri == '') {
+            $uri = '/';
+        }
         if (array_key_exists($uri, $this->routes[$request_type])) {
             // PagesController@home -> need to split it and have PagesController
             // and home or any method using explode()
