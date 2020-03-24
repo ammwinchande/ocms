@@ -24,6 +24,8 @@ To use/install the application follow these steps:
 
 For XAMP stack people you can visit like you visit your normal applications by writing this `localhost/ocms/index.php` and press `ENTER`.
 
+
+### Recommended & Used in Development Approach
 For terminal/cmd or advanced users you can boot up a server from your terminal that its `present working directory` is where the project is located by running `php -S localhost:8000`. Then, go to your browser and enter that url of `localhost:8000` and hooray!
 
 ## Contact for further assistance
